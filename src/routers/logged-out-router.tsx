@@ -1,14 +1,15 @@
 import React from "react";
-import {isLoggedInVar} from "../apollo";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {Login} from "../pages/login";
+import {CreateAccount,} from "../pages/create-account";
 
 export const LoggedOutRouter = () => {
-    const onClick= () => {
-        isLoggedInVar(true)
-    }
     return (
-        <div>
-            <h1>Logged Out</h1>
-            <button onClick={onClick}>Login</button>
-        </div>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Login/>} />
+                <Route path="/create-account" element={<CreateAccount/>} />
+            </Routes>
+        </BrowserRouter>
     )
 }

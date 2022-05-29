@@ -2,10 +2,13 @@ import React from "react";
 import {useForm} from "react-hook-form";
 import {FormError} from "../components/form-error";
 import {gql, useMutation} from "@apollo/client";
+
 import {loginMutation, loginMutationVariables} from "../__generated__/loginMutation";
 import nuberLogo from "../images/logo.svg"
 import {Button} from "../components/button";
 import {Link} from "react-router-dom";
+import {Helmet} from "react-helmet";
+import {isLoggedInVar} from "../apollo";
 
 const LOGIN_MUTATION = gql`
     mutation loginMutation($loginInput: LoginInput!) {
@@ -24,12 +27,13 @@ interface ILoginForm {
 }
 
 export const Login = () => {
-    const {register, getValues, formState: {errors, isValid}, handleSubmit} = useForm<ILoginForm>( {mode:"onChange"});
+    const {register, getValues, formState: {errors, isValid}, handleSubmit} = useForm<ILoginForm>({mode: "onChange"});
 
     const onCompleted = (data: loginMutation) => {
         const {login: {ok, token}} = data;
         if (ok) {
             console.log(token);
+            isLoggedInVar(true);
         }
     }
 
@@ -57,17 +61,22 @@ export const Login = () => {
     }
     return (
         <div className="h-screen flex items-center flex-col mt-10 lg:mt-28">
+            <Helmet>
+                <title>Login | Yammy Eats</title>
+            </Helmet>
             <div className="w-full max-w-screen-sm flex flex-col px-5 items-center">
                 <img src={nuberLogo} className="w-52 mb-10"/>
                 <h4 className="w-full text-3xl mb-5">Welcome back</h4>
                 <form onSubmit={handleSubmit(onSubmit)} className="w-full grid gap-3 mt-5 mb-5">
                     <input {...register("email", {
-                        required: "Email을 입력해주세요",
-                        pattern: /^[A-Za-z0-9._%+-]+@+[a-z.+]+\.+[a-z]+$/,
+                        required: "이메일을 입력해주세요",
+                        pattern: {
+                            value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                            message: "이메일 형식이 아닙니다"
+                        },
                     })}
                            required
                            placeholder="Email" className="input"/>
-                    {errors.email?.type === "pattern" && (<FormError errorMessage="Email 형식이 아닙니다."/>)}
                     {errors.email?.message && (<FormError errorMessage={errors.email?.message}/>)}
                     <input {...register("password", {
                         required: "Password is required", minLength: 8
@@ -80,7 +89,8 @@ export const Login = () => {
                     {loginMutationResult?.login.error && <FormError errorMessage={loginMutationResult?.login.error}/>}
                 </form>
                 <div>
-                    New to Yammy? <Link to={"/create-account"} className="text-lime-600 hover:underline">Create an Account</Link>
+                    New to Yammy? <Link to={"/create-account"} className="text-lime-600 hover:underline">Create an
+                    Account</Link>
                 </div>
             </div>
         </div>

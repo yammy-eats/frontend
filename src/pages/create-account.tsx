@@ -5,7 +5,7 @@ import {gql, useMutation} from "@apollo/client";
 import nuberLogo from "../images/logo.svg"
 import {Button} from "../components/button";
 import {Link, useNavigate} from "react-router-dom";
-import {Helmet} from "react-helmet";
+import {Helmet} from "react-helmet-async";
 import {UserRole} from "../__generated__/globalTypes";
 import {createAccountMutation, createAccountMutationVariables} from "../__generated__/createAccountMutation";
 
@@ -37,6 +37,7 @@ export const CreateAccount = () => {
             createAccount: {ok}
         } = data;
         if (ok) {
+            alert("회원가입에 성공하셨습니다! 로그인 페이지로 이동합니다")
             navigate("/login");
         }
     }

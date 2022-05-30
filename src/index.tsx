@@ -11,6 +11,7 @@ import {
     gql
 } from "@apollo/client";
 import {client} from "./apollo";
+import {HelmetProvider} from "react-helmet-async";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -18,7 +19,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
       <ApolloProvider client={client}>
+          <HelmetProvider>
           <App />
+          </HelmetProvider>{" "}
       </ApolloProvider>
   </React.StrictMode>
 );

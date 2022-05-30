@@ -38,7 +38,7 @@ export const CreateAccount = () => {
         } = data;
         if (ok) {
             alert("회원가입에 성공하셨습니다! 로그인 페이지로 이동합니다")
-            navigate("/login");
+            navigate("/");
         }
     }
 
@@ -94,7 +94,7 @@ export const CreateAccount = () => {
                         <FormError errorMessage={createAccountMutationResult.createAccount.error}/>}
                 </form>
                 <div>
-                    Already have an account?{" "} <Link to={"/login"} className="text-lime-600 hover:underline">Log In
+                    Already have an account?{" "} <Link to={"/"} className="text-lime-600 hover:underline">Log In
                     Now</Link>
                 </div>
             </div>

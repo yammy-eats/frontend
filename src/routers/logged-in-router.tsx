@@ -1,13 +1,15 @@
 import React from "react";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Restaurants} from "../pages/client/restaurants";
-import {NotFound} from "../pages/client/404";
+import {NotFound} from "../pages/404";
 import {Header} from "../components/header";
 import {useMe} from "../hooks/useMe";
+import {ConfirmEmail} from "../pages/user/confirm-email";
 
 
 const ClientRoutes = [
-    <Route path="/" element={<Restaurants/>}/>
+    <Route key={1} path="/" element={<Restaurants/>}/>,
+    <Route key={2} path="/confirm" element={<ConfirmEmail/>}/>
 ];
 
 
